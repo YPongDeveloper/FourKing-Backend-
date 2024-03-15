@@ -7,7 +7,7 @@ var app = express()
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE
 
 })
@@ -24,6 +24,15 @@ app.get('/students',function(req,res,next){
         res.json(rows)
     })
 })
+app.get('/read', (req, res) => {
+    const sqlQuery = 'SELECT * FROM student';
+  
+    pool.query(sqlQuery, (err, results, fields) => {
+      if (err) throw err;
+  
+      res.json(results);
+    });
+  })
 app.get('/read/:id', async(req, res) => {
     const id=req.params.id;
   
